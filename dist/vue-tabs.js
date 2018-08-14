@@ -89,7 +89,14 @@ var VueTabs = {
          * Centers the tabs and makes the container div full width
          */
         centered: Boolean,
-        value: [String, Number, Object]
+        value: [String, Number, Object],
+        /**
+         * Use the `.replace()` function of Vue Router instead of `.push()`
+         */
+        useRouterReplace: {
+            type: Boolean,
+            default: false
+        }
     },
     data: function data() {
         return {
@@ -144,7 +151,11 @@ var VueTabs = {
         },
         tryChangeRoute: function tryChangeRoute(route) {
             if (this.$router && route) {
-                this.$router.push(route);
+                if (this.useRouterReplace) {
+                    this.$router.replace(route);
+                } else {
+                    this.$router.push(route);
+                }
             }
         },
         addTab: function addTab(item) {
